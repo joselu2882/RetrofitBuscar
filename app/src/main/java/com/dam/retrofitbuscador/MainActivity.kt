@@ -1,6 +1,8 @@
 package com.dam.retrofitbuscador
 
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var recy: RecyclerView
     val adaptadorRecyclerView = AdaptadorAutores()
-    private lateinit var buscador: TextView
+    private lateinit var buscador: SearchView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         buscador = findViewById(R.id.svAutores)
+        buscador.setOnQueryTextListener(this)
+
         recy = findViewById(R.id.rvAutores)
         recy.layoutManager = LinearLayoutManager(
             applicationContext,
@@ -61,4 +65,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onQueryTextChange(p0: String?): Boolean {
+        buscador.setOnQueryTextListener(this)
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        if(!p0.isNullOrEmpty()){
+            busquedaAutores(p0.lowercase())
+        }
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.buscador.windowToken, 0)
+        return true
+    }
+
 }
