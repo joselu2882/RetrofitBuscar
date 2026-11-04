@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -36,6 +37,13 @@ android {
 dependencies {
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+
+
+    implementation ("androidx.room3:room3-runtime:3.0.3")
+    ksp ("androidx.room3:room3-compiler:3.0.3")
+    implementation ("androidx.room:room-ktx:2.8.5")
+
+
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)

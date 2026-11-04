@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dam.retrofitbuscadorautores.AutoresBBDD
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,6 +42,18 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             LinearLayoutManager.VERTICAL, false
         )
         recy.adapter = adaptadorRecyclerView
+
+        buscador.setOnQueryTextListener(this)
+
+        adaptadorRecyclerView.setAdaptadorAutoresCallback(object: AdaptadorAutores.AdaptadorAutoresCallBack {
+            override fun onSaveAutor(autores: Autores) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val database = AutoresBBDD.getInstance(applicationContext)
+                        database.autoresDAO().insertAutor(autores)
+                    }
+
+            }
+        })
 
 
     }
