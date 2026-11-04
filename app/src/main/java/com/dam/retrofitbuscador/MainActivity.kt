@@ -1,6 +1,8 @@
 package com.dam.retrofitbuscador
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.TextView
@@ -23,6 +25,23 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     val adaptadorRecyclerView = AdaptadorAutores()
     private lateinit var buscador: SearchView
 
+    override fun onCeateOptionsMenu(menu: Menu): Boolean{
+        menuInflater.inflate(R.menu.menu_principal, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.acttion_favoritos ->{
+            true
+        }
+
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +52,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        setSupportActionBar(findViewById(R.id.toolbarPrincipal))
+
         buscador = findViewById(R.id.svAutores)
         buscador.setOnQueryTextListener(this)
 
